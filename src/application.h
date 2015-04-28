@@ -14,13 +14,12 @@
 
 #ifndef APPLICATION_H
 #define APPLICATION_H
-#include <string>
 #include "game.h"
 
 class Application
 {
     Game game;
-    const std::string lifeQuotes[18] = {"Life isn't about finding yourself. Life is about creating yourself.",
+    const std::string lifeQuotes[22] = {"Life isn't about finding yourself. Life is about creating yourself.",
                                       "Life is really simple, but we insist on making it complicated.",
                                      "Life is 10% what happens to us and 90% how we react to it.",
                                      "When I hear somebody sigh, 'Life is hard' I am always tempted to ask, 'Compared to what?'",
@@ -37,7 +36,11 @@ class Application
                                        "There are two great rules of life: never tell everything at once.",
                                        "Only a life lived for others is a life worthwhile.",
                                        "The purpose of life is a life of purpose.",
-                                       "Life would be much easier if I had the source code."};
+                                       "Life would be much easier if I had the source code.",
+                                       "Laugh as much as you breathe and love as much as you live.",
+                                       "Because nothing lasts forever, you better live in the moment.",
+                                       "How much you enjoy your life is more important than how much you have in life.",
+                                       "Most of the problems in life are because of two reasons: we act without thinking or we keep thinking without acting."};
 public:
     Application();
     void exec();

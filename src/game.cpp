@@ -21,7 +21,7 @@ Game::Game()
 
 }
 
-void Game::makeBoard(int width, int height, std::string cell)
+void Game::makeBoard(int width, int height, const char cell)
 {
     board.initialize(width, height);
     cellMarker = cell;
@@ -37,7 +37,7 @@ void Game::printBoard()
             for (int j=0; j<board.width();j++)
             {
                 //cout<<board.at(i,j)->cell();//<<"|";
-                cout<<((board.at(i,j)->getStatus())?cellMarker:" ");
+                cout<<((board.at(i,j)->getStatus())?cellMarker:' ');
             }
             cout<<endl;
             //cout<<endl<<setw(board.width()*2)<<setfill('-')<<"-"<<endl;
@@ -56,6 +56,20 @@ void Game::clearBoard()
     system ("clear");
 #endif
 }
+
+#ifdef _WIN32
+void Game::fillWith(char fill, COORD tl)
+{
+    //COORD tl = {0,0};
+    CONSOLE_SCREEN_BUFFER_INFO s;
+    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+    GetConsoleScreenBufferInfo(console, &s);
+    DWORD written;//, cells = board.width()*board.height();//s.dwSize.X * s.dwSize.Y;
+    FillConsoleOutputCharacter(console, fill, 1, tl, &written);
+    FillConsoleOutputAttribute(console, s.wAttributes, 1, tl, &written);
+    SetConsoleCursorPosition(console, tl);
+}
+#endif
 
 void Game::makeGeneration()
 {
@@ -130,9 +144,23 @@ void Game::makeGeneration()
             //deadCounter-=aliveCounter;
             //cout<<aliveCounter<<endl;
             if (board.at(i,j)->getStatus()==ALIVE && (aliveCounter>3 || aliveCounter<2))
+            {
                 board.at(i,j)->setStatus(DEAD);
+#ifdef _WIN32
+                coord.X=j;
+                coord.Y=i;
+                fillWith(' ', coord);
+#endif
+            }
             else if(board.at(i,j)->getStatus()==DEAD && aliveCounter==3)
+            {
                 board.at(i,j)->setStatus(ALIVE);
+#ifdef _WIN32
+                coord.X=j;
+                coord.Y=i;
+                fillWith('X', coord);
+#endif
+            }
             aliveCounter = 0;
             //deadCounter=8;
         }

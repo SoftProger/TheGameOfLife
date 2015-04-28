@@ -18,14 +18,21 @@
 #include <iomanip>
 #include "Board/board.h"
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
 class Game
 {
     Board board;
     Board prevGeneration;
-    std::string cellMarker;
+    char cellMarker;
+#ifdef _WIN32
+    COORD coord;
+    void fillWith(char fill, COORD tl);
+#endif
 public:
     Game();
-    void makeBoard(int width, int height, std::string cell);
+    void makeBoard(int width, int height, const char cell);
     void printBoard();
     void clearBoard();
     void makeGeneration();
